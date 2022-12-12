@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRef } from 'react'
+import Cards from '../../../src/JsonData/FormattedData.json'
 
 
 const Searchbar = () => {
+
+    const [inputText, setInputText] = useState("")
+    let inputHandler = (e) => {
+        var lowerCase = e.target.value.toLowerCase()
+        setInputText(lowerCase)
+    }
 
 
     const clickPoint = useRef();
@@ -26,10 +33,13 @@ const Searchbar = () => {
                     placeholder="Search Here..."
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    onChange={inputHandler}
                 />
             </div>
         </div>
     );
 }
+
+
 
 export default Searchbar
