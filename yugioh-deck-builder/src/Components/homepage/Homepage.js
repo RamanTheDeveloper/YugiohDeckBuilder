@@ -6,7 +6,6 @@ function Homepage() {
   return (
     <>
         <Searchbar/>
-        <CardDisplay/>
     </>
   )
 }

@@ -1,12 +1,23 @@
 import React from 'react'
 import Cards from '../../JsonData/FormattedData.json'
 
-function CardDisplay() {
+function CardDisplay(props) {
+    
+    const filteredData = Cards.data.filter((e) => {
+        if(props.input === ''){
+            return e
+        }
+        else{
+            return e?.text.toLowerCase().includes(props.toLowerCase())
+        }
+    })
+
+
     return (
         <>
             <div className='flex justify-center align-middle'>
                 <div className='box-border h-auto w-[75rem] border-2 flex flex-col justify-center align-middle'>
-                    {Cards.data.map((card) => {
+                    {filteredData.map((card) => {
                         return (
                             <div key={card.id} className='flex h-auto w-full justify-center align-middle box-border border-2 gap-3'>
                                 <div className='flex h-40 w-56 justify-center align-middle'>
