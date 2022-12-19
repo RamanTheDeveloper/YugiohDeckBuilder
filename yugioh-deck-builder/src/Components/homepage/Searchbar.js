@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import { useRef } from 'react'
-import CardDisplay from './CardDisplay'
+//import CardDisplay from './CardDisplay'
+const CardDisplay = React.lazy(() => import('./CardDisplay'))
 
 
-function Searchbar () {
+function Searchbar() {
 
     const [inputText, setInputText] = useState("")
     let inputHandler = (e) => {
@@ -37,7 +38,11 @@ function Searchbar () {
                     />
                 </div>
             </div>
-            <CardDisplay input={inputText} />
+            <div>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <CardDisplay input={inputText} />
+                </Suspense>
+            </div>
         </>
     );
 }
