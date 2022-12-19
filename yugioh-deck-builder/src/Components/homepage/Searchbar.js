@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import CardDisplay from './CardDisplay'
 
 
-function Searchbar() {
+function Searchbar () {
 
     const [inputText, setInputText] = useState("")
     let inputHandler = (e) => {
