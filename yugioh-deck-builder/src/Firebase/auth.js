@@ -1,7 +1,7 @@
 
-import firebase from 'firebase/app';
-import "firebase/auth"
-import {auth} from './firebase'
+import firebase from 'firebase/compat/app';
+import "firebase/compat/auth"
+import {auth} from './Firebase'
   
 export const register = async({email, password})=>{
     const resp = await firebase.auth()

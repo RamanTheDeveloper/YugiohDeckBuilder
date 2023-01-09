@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {login} from './auth'
+import {login} from '../../Firebase/Auth'
 
 const Login = () => {
 	const [form,setForm] = useState({

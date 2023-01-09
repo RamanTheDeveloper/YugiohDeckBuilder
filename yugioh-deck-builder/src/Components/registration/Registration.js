@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {register} from './auth'
+import {register} from '../../Firebase/Auth'
 
 const Register = () => {
 	const [form,setForm] = useState({
