@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { login } from '../../Firebase/Auth'
+import { login } from '../../Firebase/auth.js'
 import { Link } from 'react-router-dom'
 
 const image = require('../images/Yugi-Joey-Kaiba.png')
