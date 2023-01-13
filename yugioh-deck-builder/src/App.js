@@ -5,6 +5,7 @@ import Login from './Components/login/Login'
 import Registration from './Components/registration/Registration'
 import Navbar from './Components/navbar/Navbar';
 import { initializeApp } from 'firebase/app'
+import Decks from './Components/decks/Decks';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" index element={<Homepage/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Registration/>}/>
+        <Route path='/decks' element={<Decks/>}/>
       </Routes>
     </>
   );
