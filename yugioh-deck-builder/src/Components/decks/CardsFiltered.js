@@ -9,7 +9,7 @@ function CardsFiltered(props) {
             return e
         }
         else {
-            console.log(e)
+            //console.log(e)
             return e.name.toLowerCase().includes(props.input)
         }
     })
@@ -20,7 +20,7 @@ function CardsFiltered(props) {
 
     return (
         <>
-            <div className='flex justify-center align-middle px-4 overflow-y-auto overflow-x-hidden'>
+            <div className='flex justify-center align-middle px-4 overflow-y-auto overflow-x-hidden font-normal'>
                 <div className='box-border h-auto w-[35rem] border-2 border-slate-600 flex flex-col justify-center align-middle'>
                     {filteredData.splice(0, lastIndex).map((card) => {
                         return (
@@ -29,9 +29,9 @@ function CardsFiltered(props) {
                                     <img src={card.card_images[0].image_url_small} className='w-auto h-auto' alt="Yugioh Card Image" loading='lazy' />
                                 </div>
                                 <div className='flex flex-col justify-center align-middle w-full'>
-                                    <h4>{card.name}</h4>
+                                    <h4><b>{card.name}</b></h4>
                                     <p>{card.attribute}/{card.race}</p>
-                                    <p><AiFillStar/> {card.level}</p>
+                                    <span><AiFillStar/> {card.level}</span>
                                     <p>{card.atk}/{card.def}</p>
                                 </div>
                             </div>

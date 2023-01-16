@@ -76,7 +76,7 @@ function Decks(props) {
                         <img src={image} alt="Card" className='w-20' />
                     </div>
                 </div>
-                <div className='flex flex-col bg-red-600 w-[45rem] overflow-y-auto'>
+                <div className='flex flex-col w-[45rem] overflow-y-auto'>
                     <div className='flex flex-col'>
                         <Search/>
                     </div>
