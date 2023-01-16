@@ -30,7 +30,6 @@ function CardDisplay(props) {
                                 <div className='flex flex-col justify-center align-middle w-full'>
                                     <h4><b>Name:</b> {card.name}</h4>
                                     <p><b>Description:</b> {card.desc}</p>
-                                    <p><b>Card Type:</b> {card.type}</p>
                                 </div>
                                 <div className="flex flex-row justify-center align-middle gap-3 h-full w-auto">
                                     <button className='bg-red-500 text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-red-800 hover-shadow-lg'>Wishlist</button>

@@ -1,5 +1,6 @@
 import React from 'react'
 import Cards from '../../JsonData/FormattedData.json'
+import { AiFillStar } from 'react-icons/ai';
 
 function CardsFiltered(props) {
 
@@ -8,12 +9,12 @@ function CardsFiltered(props) {
             return e
         }
         else {
-            //console.log(e)
+            console.log(e)
             return e.name.toLowerCase().includes(props.input)
         }
     })
 
-    let lastIndex = 25
+    let lastIndex = 50
 
 
 
@@ -29,7 +30,9 @@ function CardsFiltered(props) {
                                 </div>
                                 <div className='flex flex-col justify-center align-middle w-full'>
                                     <h4>{card.name}</h4>
-                                    <p>{card.type}</p>
+                                    <p>{card.attribute}/{card.race}</p>
+                                    <p><AiFillStar/> {card.level}</p>
+                                    <p>{card.atk}/{card.def}</p>
                                 </div>
                             </div>
                         )
