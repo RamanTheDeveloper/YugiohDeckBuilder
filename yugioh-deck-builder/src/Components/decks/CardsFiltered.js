@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Cards from '../../JsonData/FormattedData.json'
 import { AiFillStar } from 'react-icons/ai';
 
@@ -16,6 +16,8 @@ function CardsFiltered(props) {
 
     let lastIndex = 50
 
+    const [showName, setShowName] = useState(false)
+
 
 
     return (
@@ -26,7 +28,14 @@ function CardsFiltered(props) {
                         return (
                             <div key={card.id} className='flex h-full w-full justify-center align-middle box-border border-2 gap-3 overflow-auto myCard'>
                                 <div className='flex h-40 w-56 justify-center align-middle'>
-                                    <img src={card.card_images[0].image_url_small} className='w-auto h-auto' alt="Yugioh Card Image" loading='lazy' />
+                                    <img src={card.card_images[0].image_url_small} className='w-auto h-auto' alt="Yugioh Card Image" loading='lazy' 
+                                    onMouseEnter={() => {
+                                        setShowName(true)
+                                    }}
+                                    
+                                    onMouseLeave={() => {
+                                        setShowName(false)
+                                    }}/>
                                 </div>
                                 <div className='flex flex-col justify-center align-middle w-full'>
                                     <h4><b>{card.name}</b></h4>
