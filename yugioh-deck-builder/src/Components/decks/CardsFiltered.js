@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Cards from '../../JsonData/FormattedData.json'
 import { AiFillStar } from 'react-icons/ai';
+import { Droppable } from 'react-beautiful-dnd';
 
 function CardsFiltered(props) {
 
@@ -28,6 +29,7 @@ function CardsFiltered(props) {
                         return (
                             <div key={card.id} className='flex h-full w-full justify-center align-middle box-border border-2 gap-3 overflow-auto myCard'>
                                 <div className='flex h-40 w-56 justify-center align-middle'>
+                                    
                                     <img src={card.card_images[0].image_url_small} className='w-auto h-auto' alt="Yugioh Card Image" loading='lazy' 
                                     onMouseEnter={() => {
                                         setShowName(true)

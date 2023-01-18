@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Searchbar from '../homepage/Searchbar'
 import Search from './Search'
+import { DragDropContext } from 'react-beautiful-dnd'
 
 function Decks(props) {
 
@@ -34,11 +35,13 @@ function Decks(props) {
                         </div>
                     </div>
                     <div className='flex flex-row flex-wrap border-black border-2 border-solid'>
-                        <img src={image} alt="Card" className='w-20' />
-                        <img src={image} alt="Card" className='w-20' />
-                        <img src={image} alt="Card" className='w-20' />
-                        <img src={image} alt="Card" className='w-20' />
-                        <img src={image} alt="Card" className='w-20' />
+                        <DragDropContext>
+                            <img src={image} alt="Card" className='w-20' />
+                            <img src={image} alt="Card" className='w-20' />
+                            <img src={image} alt="Card" className='w-20' />
+                            <img src={image} alt="Card" className='w-20' />
+                            <img src={image} alt="Card" className='w-20' />
+                        </DragDropContext>
                     </div>
                     <div className='flex flex-row justify-between border-black border-solid border-2 p-2'>
                         <div>
@@ -77,7 +80,7 @@ function Decks(props) {
                 </div>
                 <div className='flex flex-col w-[45rem] overflow-y-auto'>
                     <div className='flex flex-col'>
-                        <Search/>
+                        <Search />
                     </div>
                 </div>
 
