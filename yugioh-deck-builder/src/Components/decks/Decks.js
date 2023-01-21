@@ -7,13 +7,12 @@ function Decks(props) {
 
     const image = require('../images/blue-eyes-white-dragon.png')
 
-
     return (
         <div className='h-screen w-full flex flex-row'>
             <div className='flex flex-row h-full w-full'>
                 <div className='flex flex-col h-full w-[55rem] gap-6 p-4'>
                     <div className='flex border-solid border-2 border-black p-2'>
-                        <h1>Blue-Eyes White Dragon</h1>
+                        <h1></h1>
                     </div>
                     <div className='flex justify-center w-[16rem]'>
                         <img src={image} loading="lazy" />

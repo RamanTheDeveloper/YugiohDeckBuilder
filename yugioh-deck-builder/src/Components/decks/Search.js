@@ -3,7 +3,7 @@ import { useRef } from 'react'
 //import CardsFiltered from './CardsFiltered'
 const CardsFiltered = React.lazy(() => import('./CardsFiltered'))
 
-function Search() {
+function Search(props) {
     const [inputText, setInputText] = useState("")
     let inputHandler = (e) => {
         var lowerCase = e.target.value.toLowerCase()
@@ -38,7 +38,7 @@ function Search() {
             </div>
             <div>
                 <Suspense fallback={<div>Loading...</div>}>
-                    <CardsFiltered input={inputText}/>
+                    <CardsFiltered input={inputText} showName={props}/>
                 </Suspense>
             </div>
         </>
