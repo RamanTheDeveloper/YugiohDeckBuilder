@@ -20,7 +20,7 @@ function CardsFiltered(props) {
 
     useEffect(() => {
         localStorage.setItem('items', JSON.stringify(name))
-        console.log(name)
+        //console.log(name)
     }, [name])
 
     

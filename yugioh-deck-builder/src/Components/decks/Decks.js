@@ -10,10 +10,11 @@ function Decks(props) {
     const [name, setName] = useState()
 
     useEffect(() => {
-        const name = localStorage.getItem('items')
-        if(name){
-            setName(name)
-        }
+        window.addEventListener('storage', (e) => {
+            const localName = localStorage.getItem('items')
+            console.log(localName)
+            this.setName(localName)
+        })
     }, [])
 
     return (
@@ -88,7 +89,7 @@ function Decks(props) {
                 </div>
                 <div className='flex flex-col w-[45rem] overflow-y-auto'>
                     <div className='flex flex-col'>
-                        <Search getName={name => setName(name)}/>
+                        <Search getName={name => setName(name)} />
                     </div>
                 </div>
 
