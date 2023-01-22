@@ -19,6 +19,10 @@ function Search(props) {
         clickPoint.current.style.display = "block";
     };
 
+    
+    const [cardName, setCardName] = useState()
+    
+    
     return (
         <>
             <div className="items-center py-6 px-4 flex justify-center" >
@@ -38,7 +42,7 @@ function Search(props) {
             </div>
             <div>
                 <Suspense fallback={<div>Loading...</div>}>
-                    <CardsFiltered input={inputText} showName={props}/>
+                    <CardsFiltered input={inputText} onMouseOver={() => props.getName(cardName)} getCardName={cardName => setCardName(cardName)}/>
                 </Suspense>
             </div>
         </>

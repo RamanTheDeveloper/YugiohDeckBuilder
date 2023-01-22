@@ -1,18 +1,27 @@
-import React, { useState } from 'react'
-import Searchbar from '../homepage/Searchbar'
-import Search from './Search'
+import React, { useEffect, useState } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
+import CardsSearch from './CardsSearch'
+import Search from './Search'
 
 function Decks(props) {
 
     const image = require('../images/blue-eyes-white-dragon.png')
+
+    const [name, setName] = useState()
+
+    useEffect(() => {
+        const name = localStorage.getItem('items')
+        if(name){
+            setName(name)
+        }
+    }, [])
 
     return (
         <div className='h-screen w-full flex flex-row'>
             <div className='flex flex-row h-full w-full'>
                 <div className='flex flex-col h-full w-[55rem] gap-6 p-4'>
                     <div className='flex border-solid border-2 border-black p-2'>
-                        <h1></h1>
+                        <h1 onChange={(e) => setName(e.target.value)}>{name}</h1>
                     </div>
                     <div className='flex justify-center w-[16rem]'>
                         <img src={image} loading="lazy" />
@@ -79,7 +88,7 @@ function Decks(props) {
                 </div>
                 <div className='flex flex-col w-[45rem] overflow-y-auto'>
                     <div className='flex flex-col'>
-                        <Search />
+                        <Search getName={name => setName(name)}/>
                     </div>
                 </div>
 
