@@ -18,14 +18,16 @@ function CardDisplay(props) {
     const [list, setList] = useState()
 
     const handleAddWishlist = () => {
-        const newList = list.concat({name})
+        const newList = list({state})
 
         setList(newList)
     }
 
     const [name, setName] = useState()
 
-    
+    const state = {
+        cardData: Cards
+    }
 
 
     return (
@@ -39,11 +41,11 @@ function CardDisplay(props) {
                                     <img src={card.card_images[0].image_url_small} className='w-auto h-auto' alt="Yugioh Card Image" loading='lazy'/>
                                 </div>
                                 <div className='flex flex-col justify-center align-middle w-full'>
-                                    <h4 name={name}><b>Name:</b> {card.name}</h4>
+                                    <h4><b>Name:</b> {card.name}</h4>
                                     <p><b>Description:</b> {card.desc}</p>
                                 </div>
                                 <div className="flex flex-row justify-center align-middle gap-3 h-full w-auto">
-                                    <button className='bg-red-500 text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-red-800 hover-shadow-lg' onClick={handleAddWishlist}>Wishlist</button>
+                                    <button className='bg-red-500 text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-red-800 hover-shadow-lg' onClick={() => handleAddWishlist()}>Wishlist</button>
                                     <button className='bg-black text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-gray-800 hover-shadow-lg'>Ownlist</button>
                                 </div>
                             </div>
