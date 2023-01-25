@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 
 function Wishlist() {
 
-  const [data, setData] = useState()
+  const [data, setData] = useState([])
 
   useEffect(() => {
     const localStorageItems = JSON.parse(localStorage.getItem('items'))
     console.log(localStorageItems)
-    setData(localStorageItems)
+    setData([localStorageItems])
   }, [])
   
 
@@ -20,6 +20,7 @@ function Wishlist() {
             <div key={card.id}>
               <h1>Name: {card.name}</h1>
               <p>Desc: {card.desc}</p>
+              <img src={card.image} alt="" />
             </div>
           ))}
         </div>

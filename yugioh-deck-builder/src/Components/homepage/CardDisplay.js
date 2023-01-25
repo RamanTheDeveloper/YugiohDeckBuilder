@@ -15,18 +15,15 @@ function CardDisplay(props) {
 
     let lastIndex = 25
 
-    function handleWishlist(id){
-        let oldCard = JSON.parse(localStorage.getItem('cards'))
-        localStorage.setItem("cards", JSON.stringify([...oldCard]))
-
-    }
-
-    const cardsList = (id, name) => {
-        const obj = {
+    const cardsList = (id, name, desc, image) => {
+        let obj = [{
             id: id,
-            name: name
-        }
-        localStorage.setItem('items', JSON.stringify({...obj}))
+            name: name,
+            desc: desc,
+            image: image
+        }]
+        let oldData = JSON.parse(localStorage.getItem('items'))
+        localStorage.setItem('items', JSON.stringify([...oldData, ...obj]))
     }
 
 
@@ -45,7 +42,7 @@ function CardDisplay(props) {
                                     <p><b>Description:</b> {card.desc}</p>
                                 </div>
                                 <div className="flex flex-row justify-center align-middle gap-3 h-full w-auto">
-                                    <button className='bg-red-500 text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-red-800 hover-shadow-lg' onClick={() => cardsList(card.id, card.name)}>Wishlist</button>
+                                    <button className='bg-red-500 text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-red-800 hover-shadow-lg' onClick={() => cardsList(card.id, card.name, card.desc, card.card_images[0].image_url_small)}>Wishlist</button>
                                     <button className='bg-black text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-gray-800 hover-shadow-lg'>Ownlist</button>
                                 </div>
                             </div>
