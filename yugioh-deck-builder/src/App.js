@@ -7,6 +7,7 @@ import Navbar from './Components/navbar/Navbar';
 import { initializeApp } from 'firebase/app'
 import Decks from './Components/decks/Decks';
 import Profile from './Components/profile/Profile';
+import Wishlist from './Components/wishlist/Wishlist';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/register' element={<Registration/>}/>
         <Route path='/decks' element={<Decks/>}/>
         <Route path='/profile' element={<Profile/>}/>
+        <Route path='/wishlist' element={<Wishlist/>}/>
       </Routes>
     </>
   );
