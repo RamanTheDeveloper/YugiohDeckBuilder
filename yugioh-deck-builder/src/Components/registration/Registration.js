@@ -12,18 +12,21 @@ const Register = () => {
 
 	const [email, setEmail] = useState()
 	const [password, setPassword] = useState()
+	
+	let isRegistered = false
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		await createUserWithEmailAndPassword(auth, email, password)
+		createUserWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
-				//Logged in
 				const user = userCredential.user
 				console.log(user)
-				if (user) {
-					<span>This user already exists!</span>
+				navigate("/login")
+				if (user != null) {
+					isRegistered = true
 				}
 				else {
+					isRegistered = false
 					navigate("/login")
 				}
 			})
@@ -39,6 +42,7 @@ const Register = () => {
 		<section class="h-screen">
 			<div class="px-6 py-12 h-full w-full">
 				<center><h1>Create an account</h1></center>
+				{isRegistered && <span>User already exists</span>}
 				<div class="flex flex-col justify-center align-middle items-center flex-wrap h-full g-4 text-gray-800">
 					<div className="md:w-8/12 lg:w-6/12 mb-12 md:mb-0 w-full flex justify-center">
 						<img
