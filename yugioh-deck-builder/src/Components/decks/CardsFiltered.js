@@ -23,7 +23,7 @@ function CardsFiltered(props) {
         //console.log(name)
     }, [name])
 
-    
+
 
     return (
         <>
@@ -31,15 +31,15 @@ function CardsFiltered(props) {
                 <div className='box-border h-auto w-[35rem] border-2 border-slate-600 flex flex-col justify-center align-middle'>
                     {filteredData.splice(0, lastIndex).map((card) => {
                         return (
-                            <div key={card.id} onMouseOver={() => setName(card.name)}  className='flex h-full w-full justify-center align-middle box-border border-2 gap-3 overflow-auto myCard'>
+                            <div key={card.id} onMouseOver={() => setName(card.name)} className='flex h-full w-full justify-center align-middle box-border border-2 gap-3 overflow-auto myCard'>
                                 <div className='flex h-40 w-56 justify-center align-middle'>
-                                    <img src={card.card_images[0].image_url_small} className='w-auto h-auto' alt="Yugioh Card Image" loading='lazy' 
+                                    <img src={card.card_images[0].image_url_small} className='w-auto h-auto' alt="Yugioh Card Image" loading='lazy'
                                     />
                                 </div>
                                 <div className='flex flex-col justify-center align-middle w-full'>
                                     <h4><b>{card.name}</b></h4>
                                     <p>{card.attribute}/{card.race}</p>
-                                    <span><AiFillStar/> {card.level}</span>
+                                    <span><AiFillStar /> {card.level}</span>
                                     <p>{card.atk}/{card.def}</p>
                                 </div>
                             </div>
