@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { login } from '../../Firebase/auth.js'
 import { Link, useNavigate } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
+import {  signInWithEmailAndPassword   } from 'firebase/auth';
+import { auth } from '../../Firebase/firebase';
 
 const image = require('../images/Yugi-Joey-Kaiba.png')
 
@@ -9,14 +11,22 @@ const Login = () => {
 
 	const navigate = useNavigate()
 
-	const [form, setForm] = useState({
-		email: '',
-		password: ''
-	})
+	const [email, setEmail] = useState()
+	const [password, setPassword] = useState()
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		await login(form);
-		navigate("/homepage")
+		signInWithEmailAndPassword(auth, email, password)
+		.then((userCredential) => {
+			const user = userCredential.user
+			navigate("/")
+			console.log(user)
+		})
+		.catch((error) => {
+			const errorCode = error.code
+			const errorMsg = error.message
+			console.log(errorCode, errorMsg)
+		})
 	}
 
 	return (
@@ -36,11 +46,11 @@ const Login = () => {
 						<form onSubmit={handleSubmit}>
 							<div className="mb-6">
 								<input
-									type="text"
+									type="email"
 									id='mail'
 									className="form-control block w-[44rem] px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
 									placeholder="Email address"
-									onChange={(e) => setForm({...form, email: e.target.value})}
+									onChange={(e) => setEmail(e.target.value)}
 								/>
 							</div>
 
@@ -49,7 +59,7 @@ const Login = () => {
 									type="password"
 									className="form-control block w-[44rem] px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
 									placeholder="Password"
-									onChange={(e) => setForm({...form, password: e.target.value})}
+									onChange={(e) => setPassword(e.target.value)}
 								/>
 							</div>
 
@@ -78,7 +88,7 @@ const Login = () => {
 								className="inline-block px-7 py-3 bg-black text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-slate-700  hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-900  active:shadow-lg transition duration-150 ease-in-out w-[44rem]"
 								data-mdb-ripple="true"
 								data-mdb-ripple-color="light"
-							>
+								onClick={handleSubmit}>
 								Sign in
 							</button>
 

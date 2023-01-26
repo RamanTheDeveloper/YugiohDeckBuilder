@@ -1,15 +1,35 @@
 import React, {useState} from 'react'
 import {register} from '../../Firebase/auth.js'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import {  createUserWithEmailAndPassword  } from 'firebase/auth';
+import { auth } from '../../Firebase/firebase';
 
 const Register = () => {
-	const [form,setForm] = useState({
-		email:'',
-		password:''
-	})
-	const handleSubmit = async(e)=>{
-		e.preventDefault();
-		await register(form);
+
+	const navigate = useNavigate()
+
+	const [email, setEmail] = useState()
+	const [password, setPassword] = useState()
+
+	const handleSubmit = async(e) => {
+		e.preventDefault()
+		await createUserWithEmailAndPassword(auth, email, password)
+		.then((userCredential) => {
+			//Logged in
+			const user = userCredential.user
+			console.log(user)
+			if(user){
+				<span>This user already exists!</span>
+			}
+			else{
+				navigate("/login")
+			}
+		})
+		.catch((error) => {
+			const errorCode = error.code
+			const errorMsg = error.message
+			console.log(errorCode, errorMsg)
+		})
 
 	}
 
@@ -19,7 +39,7 @@ const Register = () => {
 			<center><h1>Create an account</h1></center>
 				<div class="flex flex-col justify-center align-middle items-center flex-wrap h-full g-4 text-gray-800">
 					<div class="md:w-8/12 lg:w-5/12 lg:ml-20">
-						<form onSubmit={handleSubmit}>
+						<form>
 							<div class="mb-6">
 								<input
 									type="text"
@@ -30,11 +50,11 @@ const Register = () => {
 							
 							<div class="mb-6">
 								<input
-									type="text"
+									type="email"
 									id='mail'
 									class="form-control block w-[44rem] px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
 									placeholder="Email address"
-									onChange={(e) => setForm({...form, email: e.target.value})}
+									onChange={(e) => setEmail(e.target.value)}
 								/>
 							</div>
 
@@ -43,7 +63,7 @@ const Register = () => {
 									type="password"
 									class="form-control block w-[44rem] px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
 									placeholder="Password"
-									onChange={(e) => setForm({...form, password: e.target.value})}
+									onChange={(e) => setPassword(e.target.value)}
 								/>
 							</div>
 							
@@ -52,7 +72,7 @@ const Register = () => {
 								class="inline-block px-7 py-3 bg-black text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-slate-700  hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-900  active:shadow-lg transition duration-150 ease-in-out w-[44rem]"
 								data-mdb-ripple="true"
 								data-mdb-ripple-color="light"
-							>
+								onClick={handleSubmit}>
 								Create
 							</button>
 						</form>
