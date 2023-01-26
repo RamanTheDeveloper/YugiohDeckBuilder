@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { register } from '../../Firebase/Authenthication.js';
+import React, {useState} from 'react'
+import {register} from '../../Firebase/Auth'
 import { Link } from 'react-router-dom'
 
 const Register = () => {
@@ -32,6 +32,14 @@ const Register = () => {
 				<div class="flex flex-col justify-center align-middle items-center flex-wrap h-full g-4 text-gray-800">
 					<div class="md:w-8/12 lg:w-5/12 lg:ml-20">
 						<form onSubmit={handleSubmit}>
+							<div class="mb-6">
+								<input
+									type="text"
+									class="form-control block w-[44rem] px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+									placeholder="Username"
+								/>
+							</div>
+							
 							<div class="mb-6">
 								<input
 									type="text"
