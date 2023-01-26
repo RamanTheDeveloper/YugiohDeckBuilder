@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { login } from '../../Firebase/auth.js'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
 
 const image = require('../images/Yugi-Joey-Kaiba.png')
 
 const Login = () => {
+
+	const navigate = useNavigate()
+
 	const [form, setForm] = useState({
 		email: '',
 		password: ''
@@ -13,7 +16,7 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		await login(form);
-
+		navigate("/homepage")
 	}
 
 	return (

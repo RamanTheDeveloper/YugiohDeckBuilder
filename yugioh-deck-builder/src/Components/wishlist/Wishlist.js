@@ -5,7 +5,7 @@ function Wishlist() {
   const [data, setData] = useState({})
 
   useEffect(() => {
-    const localStorageItems = JSON.stringify(localStorage.getItem('items'))
+    let localStorageItems = JSON.stringify(localStorage.getItem('items'))
     console.log(localStorageItems)
     setData(localStorageItems)
   }, {})
