@@ -7,13 +7,16 @@ function Decks(props) {
 
     const image = require('../images/blue-eyes-white-dragon.png')
 
-    const [name, setName] = useState()
+    const [name, setName] = useState([])
 
     useEffect(() => {
         window.addEventListener('storage', (e) => {
-            const localName = localStorage.getItem('items')
+            const localName = JSON.parse(localStorage.getItem('items'))
             console.log(localName)
-            this.setName(localName)
+            if(localName){
+                setName(localName)
+            }
+            
         })
     }, [])
 
@@ -22,7 +25,7 @@ function Decks(props) {
             <div className='flex flex-row h-full w-full'>
                 <div className='flex flex-col h-full w-[55rem] gap-6 p-4'>
                     <div className='flex border-solid border-2 border-black p-2'>
-                        <h1 onChange={(e) => setName(e.target.value)}>{name}</h1>
+                        <h1>{localStorage.getItem('items')}</h1>
                     </div>
                     <div className='flex justify-center w-[16rem]'>
                         <img src={image} loading="lazy" />
