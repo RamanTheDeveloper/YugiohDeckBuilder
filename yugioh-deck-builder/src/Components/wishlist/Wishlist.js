@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 function Wishlist() {
 
-  const [data, setData] = useState([])
+  const [data, setData] = useState({})
 
   useEffect(() => {
-    const localStorageItems = JSON.parse(localStorage.getItem('items'))
+    const localStorageItems = JSON.stringify(localStorage.getItem('items'))
     console.log(localStorageItems)
-    setData([localStorageItems])
-  }, [])
+    setData(localStorageItems)
+  }, {})
+
+  console.log(data)
   
 
   return (
