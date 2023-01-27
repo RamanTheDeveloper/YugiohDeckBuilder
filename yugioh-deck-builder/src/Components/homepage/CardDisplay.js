@@ -13,7 +13,18 @@ function CardDisplay(props) {
         }
     })
 
-    let lastIndex = 25
+    let lastIndex = 50
+
+    const [index, setIndex] = useState(lastIndex)
+
+    const handleScroll = (e) => {
+        const bottom = e.target.scrollHeight - e.target.scollTop === e.target.clientHeight
+        console.log(bottom)
+        if(bottom){
+            lastIndex += lastIndex
+            setIndex(lastIndex)
+        }
+    }
 
     const [isEmpty, setEmpty] = useState()
 
@@ -40,9 +51,9 @@ function CardDisplay(props) {
         <>
             <div className='flex justify-center align-middle'>
                 <div className='box-border h-full w-[75rem] border-2 flex flex-col justify-center align-middle'>
-                    {filteredData.splice(0, lastIndex).map((card) => {
+                    {filteredData.splice(0, index).map((card) => {
                         return (
-                            <div key={card.id} className='flex h-auto w-full justify-center align-middle box-border border-2 gap-3 overflow-auto myCard'>
+                            <div key={card.id} className='flex h-auto w-full justify-center align-middle box-border border-2 gap-3 overflow-auto myCard' onScroll={handleScroll}>
                                 <div className='flex h-40 w-56 justify-center align-middle'>
                                     <img src={card.card_images[0].image_url_small} className='w-auto h-auto' alt="Yugioh Card Image" loading='lazy'/>
                                 </div>
