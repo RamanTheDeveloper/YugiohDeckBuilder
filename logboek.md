@@ -31,7 +31,7 @@ Alle cards worden gedisplayed in correcte styling. Search bar werkt ook en zoekt
 De deck builder page moet nog gebouwd worden. Verschillende secties al aangemaakt en een beetje gestyled. Kaarten zoekbalk geeft nog error.
 
 ## 01/01/2023
-Zoekbalk werkt in decks page. Verschillende kaarten toegevoegd aan kaarten sectie als reference. Drag and drop funcionaliteit toevoegen (react-beautiful-dnd). Kaart info sectie moet kaart info weergeven wanneer een kaart gezocht wordt en geklikt wordt.
+Zoekbalk werkt in decks page. Verschillende kaarten toegevoegd aan kaarten sectie als reference. Drag and drop funcionaliteit toevoegen (react-beautiful-dnd). Kaart info sectie moet kaart info weergeven wanneer een kaart gezocht wordt en geklikt wordt. Gebruik maken van React state hooks.
 
 ## 07/01/2023
 In decks page, drag and drop functionaliteiten werkt nog niet, bugs zoeken en fixen. Kaart info sectie weergeeft naam alleen op refresh. Login pagina aangemaakt samen met registratie pagina. Authentication nog toevoegen van Firebase.
