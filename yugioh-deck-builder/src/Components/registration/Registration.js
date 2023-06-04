@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {register} from '../../Firebase/Auth'
+import {register} from '../../Firebase/auth'
 import { Link } from 'react-router-dom'
 
 const Register = () => {

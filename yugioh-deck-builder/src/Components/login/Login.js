@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { login } from '../../Firebase/auth.js'
+import {login} from '../../Firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
 
@@ -8,6 +8,9 @@ const image = require('../images/Yugi-Joey-Kaiba.png')
 const Login = () => {
 
 	const navigate = useNavigate()
+
+	const [email, setEmail] = useState()
+	const [password, setPassword] = useState()
 
 	const [form, setForm] = useState({
 		email: '',
