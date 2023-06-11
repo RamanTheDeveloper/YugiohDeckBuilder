@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { login } from '../../Firebase/auth.js'
 import { Link, useNavigate } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
-import {  signInWithEmailAndPassword   } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Firebase/firebase';
 
 const image = require('../images/Yugi-Joey-Kaiba.png')
@@ -17,22 +17,22 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		signInWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			const user = userCredential.user
-			navigate("/")
-			console.log(user)
-		})
-		.catch((error) => {
-			const errorCode = error.code
-			const errorMsg = error.message
-			console.log(errorCode, errorMsg)
-		})
+			.then((userCredential) => {
+				const user = userCredential.user
+				navigate("/")
+				console.log(user)
+			})
+			.catch((error) => {
+				const errorCode = error.code
+				const errorMsg = error.message
+				console.log(errorCode, errorMsg)
+			})
 	}
 
 	return (
 		<section className="h-screen">
 			<div className="px-6 py-12 h-full w-full">
-			<center><h1>Login</h1></center>
+				<center><h1>Login</h1></center>
 				<div className="flex flex-col justify-center align-middle items-center flex-wrap h-full g-4 text-gray-800 ">
 					<div className="md:w-8/12 lg:w-6/12 mb-12 md:mb-0 w-full flex justify-center">
 						<img
@@ -75,11 +75,11 @@ const Login = () => {
 									>Remember me</label
 									>
 								</div>
-								<a
-									href="#!"
-									className="text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 duration-200 transition ease-in-out"
-								>Forgot password?</a
-								>
+								<div>
+									<Link to="/reset">
+										<a className="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out">Forgot Password?</a>
+									</Link>
+								</div>
 							</div>
 
 
@@ -96,10 +96,9 @@ const Login = () => {
 								<p className="text-sm font-semibold mt-2 pt-1 mb-0">
 									Don't have an account?
 									<Link to="/register">
-									<a
-										href="#!"
-										className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
-									>   Register</a>
+										<a
+											className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+										>   Register</a>
 									</Link>
 								</p>
 							</div>
