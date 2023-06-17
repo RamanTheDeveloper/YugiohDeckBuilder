@@ -76,9 +76,9 @@ const Login = () => {
 									>
 								</div>
 								<div>
-									<Link to="/reset">
-										<a className="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out">Forgot Password?</a>
-									</Link>
+
+									<a className="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out"><Link to="/reset">Forgot Password?</Link></a>
+
 								</div>
 							</div>
 
