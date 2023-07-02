@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Firebase/firebase';
-import {FormProvider} from 'react-hook-form'
+import {FormProvider, useForm} from 'react-hook-form'
 
 const image = require('../images/Yugi-Joey-Kaiba.png')
 
@@ -14,6 +14,7 @@ const Login = () => {
 
 	const [email, setEmail] = useState()
 	const [password, setPassword] = useState()
+	const [error, setError] = useState(false)
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -26,6 +27,7 @@ const Login = () => {
 			.catch((error) => {
 				const errorCode = error.code
 				const errorMsg = error.message
+				setError(errorMsg)
 				console.log(errorCode, errorMsg)
 			})
 	}
@@ -40,13 +42,14 @@ const Login = () => {
 							<img
 								src={image}
 								className="w-[45rem] p-4"
-								alt="Phone image"
+								alt="Phone"
 								loading='lazy'
 							/>
 						</div>
 						<div className="md:w-8/12 lg:w-5/12 lg:ml-20">
 							<form onSubmit={handleSubmit}>
 								<div className="mb-6">
+									{error}
 									<input
 										type="email"
 										id='mail'

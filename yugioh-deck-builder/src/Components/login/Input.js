@@ -1,4 +1,6 @@
 import {findInputError, isFormInvalid} from '../utils'
+import { useFormContext } from 'react-hook-form'
+import {AnimatePresence, motion, MdError} from 'framer-motion'
 
 export const Input = ({label, type, id, placeholder}) => {
     const {register,
