@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import firebase from 'firebase/compat/app'
+import Logout from '../logout/Logout'
 
 function Navbar() {
 
@@ -65,7 +66,12 @@ function Navbar() {
           </li>
         </ul>
       ) : (
-        <p className="text-white">User is logged in</p>
+        <>
+        <div>
+          <p className="text-white">User is logged in</p>
+          <div><Logout/></div>
+        </div>
+        </>
       )}
     </div>
   );
