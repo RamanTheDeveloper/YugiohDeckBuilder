@@ -14,7 +14,7 @@ function Navbar() {
   firebase.auth().onAuthStateChanged(function(currentuser){
     setIsLoggedin(!currentuser)
     console.log(currentuser);
-    console.log(currentuser.displayName);
+    console.log(currentuser.email);
   })
 
 
@@ -67,8 +67,8 @@ function Navbar() {
         </ul>
       ) : (
         <>
-        <div>
-          <p className="text-white">User is logged in</p>
+        <div className='flex justify-center align-middle w-auto h-auto pt-6'>
+          <span className='text-white font-bold'>{currentuser.email}</span>
           <div><Logout/></div>
         </div>
         </>
