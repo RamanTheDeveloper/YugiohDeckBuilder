@@ -68,7 +68,7 @@ function Navbar() {
       ) : (
         <>
         <div className='flex justify-center align-middle w-auto h-auto pt-6'>
-          <span className='text-white font-bold'>{currentuser.email}</span>
+          <span className='text-white font-bold'>User</span>
           <div><Logout/></div>
         </div>
         </>
