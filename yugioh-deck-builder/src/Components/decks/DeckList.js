@@ -35,26 +35,29 @@ function DeckList() {
                     <button className="close" onClick={close}>
                       &times;
                     </button>
-                    <div className="header">Create New Deck</div>
+                    <div className="header font-bold my-2">Create a New Deck</div>
                     <div className="actions">
-                      <Popup
-                        trigger={<button className="button"> Trigger </button>}
-                        position="top center"
-                        nested
-                      >
                       <div className="w-max h-max border-2">
-                        <input type="text" className="w-max h-auto"/>
+                        <input
+                          type="text"
+                          placeholder="Deck name..."
+                          className="w-max h-auto border-2 p-2"
+                        />
                       </div>
-                      </Popup>
-                      <button
-                        className="button"
-                        onClick={() => {
-                          console.log("modal closed ");
-                          close();
-                        }}
-                      >
-                        close modal
-                      </button>
+                      <div className="flex justify-start gap-3 my-2">
+                        <button className="box-border border-2 border-transparent w-max h-max bg-green-500 text-white py-2 px-1  rounded">
+                          Create
+                        </button>
+                        <button
+                          className="box-border border-2 border-transparent w-max h-max bg-red-500 text-white py-2 px-1 rounded"
+                          onClick={() => {
+                            console.log("modal closed ");
+                            close();
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
