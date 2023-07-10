@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "reactjs-popup/dist/index";
 import Popup from "reactjs-popup/dist/index";
-import { firestore } from "../../Firebase/firebase";
+import { db, firestore } from "../../Firebase/firebase";
+import {doc, setDoc, collection} from 'firebase/firestore'
 
 function DeckList() {
   const [decks, setDecks] = useState();
@@ -10,7 +11,10 @@ function DeckList() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await firestore.collection("Decks").add({ name: newDeck });
+    await firestore.collection(db, "Decks").add({ name: newDeck });
+    /*await setDoc(doc(db, "Decks", "Name"), {
+      name: input
+    })*/
     setNewDeck(input);
     getDecks();
   };
