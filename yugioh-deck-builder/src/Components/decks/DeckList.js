@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "reactjs-popup/dist/index";
 import Popup from "reactjs-popup/dist/index";
-import { db } from '../../Firebase/firebase'
+import { db } from "../../Firebase/firebase";
+import { setDoc, doc, collection, getDocs, addDoc, query, where } from "firebase/firestore";
 
 function DeckList() {
   const [decks, setDecks] = useState();
@@ -14,8 +15,16 @@ function DeckList() {
     const newDeckName = input.trim();
 
     if (newDeckName) {
+
+      const deckExists = decks.some((deck) => deck.name === newDeckName)
+
+      if(deckExists){
+        alert('Deck name already exists. Please choose a different name')
+        return
+      }
+
       try {
-        await db.collection("Decks").add({ name: newDeckName });
+        await setDoc(doc(db, "Decks", newDeckName), { name: newDeckName });
         setInput("");
         getDecks();
       } catch (error) {
@@ -23,14 +32,24 @@ function DeckList() {
       }
     } else {
       console.warn("Deck name cannot be empty!");
+      alert('Deck name cannot be empty!')
     }
   };
 
   const getDecks = async () => {
-    //const decksRef = await firestore.collection("Decks").get();
-    //const decksData = decksRef.docs.map((doc) => doc.data());
-    //setDecks(decksData);
+    try{
+      const decksRef = collection(db, 'Decks')
+      const querySnapshot = await getDocs(decksRef)
+      const decksData = querySnapshot.docs.map((doc) => doc.data())
+      setDecks(decksData)
+    } catch (error){
+      console.error('Error getting decks: ', error);
+    }
   };
+
+  useEffect(() => {
+    getDecks()
+  }, [])
 
   console.log(input);
 
@@ -108,17 +127,21 @@ function DeckList() {
           </div>
           <div className="box-border border-2 border-black flex flex-col justify-center align-middle my-4 p-2">
             <p>Your Decks</p>
-            {/*<ul>
-              {decks.map((deck) => (
-                <li key={deck.id}>
-                  {deck.name}
-                  <button onClick={() => handleUpdate(deck.id, deck.name)}>
-                    Edit
-                  </button>
-                  <button onClick={() => handleDelete(deck.id)}>Delete</button>
-                </li>
-              ))}
-            </ul>*/}
+            {decks ? (
+              <ul>
+                {decks.map((deck) => (
+                  <li key={deck.id}>
+                    {deck.name}
+                    {/*<button onClick={() => handleUpdate(deck.id, deck.name)}>
+                      Edit
+                    </button>
+                    <button onClick={() => handleDelete(deck.id)}>Delete</button>*/}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="font-extralight text-sm italic">No decks available...</p>
+            )}
           </div>
         </div>
       </div>
