@@ -1,13 +1,37 @@
 import React, { useEffect, useState } from "react";
 import "reactjs-popup/dist/index";
 import Popup from "reactjs-popup/dist/index";
+import { Navigate, useNavigate } from 'react-router-dom'
 import { db } from "../../Firebase/firebase";
+import { isLoggedIn } from '../../Firebase/auth'
 import { setDoc, doc, collection, getDocs, addDoc, query, where } from "firebase/firestore";
 
 function DeckList() {
   const [decks, setDecks] = useState();
-  const [newDeck, setNewDeck] = useState();
   const [input, setInput] = useState();
+  const userLoggedIn = isLoggedIn()
+  const navigate = useNavigate(0)
+
+  
+
+  const getDecks = async () => {
+    try{
+      const decksRef = collection(db, 'Decks')
+      const querySnapshot = await getDocs(decksRef)
+      const decksData = querySnapshot.docs.map((doc) => doc.data())
+      setDecks(decksData)
+    } catch (error){
+      console.error('Error getting decks: ', error);
+    }
+  };
+
+  useEffect(() => {
+    if(!userLoggedIn){
+      navigate('/login')
+    } else{
+      getDecks();
+    }
+  }, [navigate, userLoggedIn]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +48,7 @@ function DeckList() {
       }
 
       try {
-        await setDoc(doc(db, "Decks", newDeckName), { name: newDeckName });
+        await addDoc(doc(db, "Decks", newDeckName), { name: newDeckName });
         setInput("");
         getDecks();
       } catch (error) {
@@ -35,21 +59,6 @@ function DeckList() {
       alert('Deck name cannot be empty!')
     }
   };
-
-  const getDecks = async () => {
-    try{
-      const decksRef = collection(db, 'Decks')
-      const querySnapshot = await getDocs(decksRef)
-      const decksData = querySnapshot.docs.map((doc) => doc.data())
-      setDecks(decksData)
-    } catch (error){
-      console.error('Error getting decks: ', error);
-    }
-  };
-
-  useEffect(() => {
-    getDecks()
-  }, [])
 
   console.log(input);
 
