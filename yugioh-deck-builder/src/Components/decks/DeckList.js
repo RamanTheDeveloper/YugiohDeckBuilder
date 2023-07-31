@@ -4,7 +4,7 @@ import Popup from "reactjs-popup/dist/index";
 import { Navigate, useNavigate } from 'react-router-dom'
 import { db } from "../../Firebase/firebase";
 import { isLoggedIn } from '../../Firebase/auth'
-import { setDoc, doc, collection, getDocs, addDoc, query, where } from "firebase/firestore";
+import { setDoc, doc, collection, getDocs, addDoc, query, where, deleteDoc } from "firebase/firestore";
 
 function DeckList() {
   const [decks, setDecks] = useState();
@@ -59,6 +59,44 @@ function DeckList() {
       alert('Deck name cannot be empty!')
     }
   };
+
+  const handleUpdate = async (deckId, newName) => {
+    const updatedDeckName = prompt('Enter a new deck name:', newName)
+
+    if(updatedDeckName && updatedDeckName.trim() !== newName){
+      const deckExists = decks.some(
+        (deck) => deck.name === updatedDeckName.trim()
+      )
+
+      if(deckExists){
+        alert('Deck name already exists. Please choose a different name...')
+        return
+      }
+
+      try{
+        await setDoc(doc(db, 'Decks', deckId), {name: updatedDeckName})
+        getDecks()
+      } catch (error){
+        console.log('Error updating deck', error);
+      }
+    }
+  }
+
+  const handleDelete = async (deckId) => {
+    if (!deckId) {
+      console.error("Invalid deckId. Cannot delete the deck.");
+      return;
+    }
+  
+    if (window.confirm("Are you sure you want to delete this deck?")) {
+      try {
+        await deleteDoc(doc(db, "Decks", deckId));
+        getDecks();
+      } catch (error) {
+        console.log("Error deleting deck", error);
+      }
+    }
+  }
 
   console.log(input);
 
@@ -137,14 +175,14 @@ function DeckList() {
           <div className="box-border border-2 border-black flex flex-col justify-center align-middle my-4 p-2">
             <p>Your Decks</p>
             {decks ? (
-              <ul>
+              <ul className="flex-col justify-start">
                 {decks.map((deck) => (
                   <li key={deck.id}>
                     {deck.name}
-                    {/*<button onClick={() => handleUpdate(deck.id, deck.name)}>
+                    <button className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded" onClick={() => handleUpdate(deck.id, deck.name)}>
                       Edit
                     </button>
-                    <button onClick={() => handleDelete(deck.id)}>Delete</button>*/}
+                    <button className="box-border border-2 border-transparent w-max h-max bg-red-500 text-white py-2 px-1 rounded" onClick={() => handleDelete(deck.id)}>Delete</button>
                   </li>
                 ))}
               </ul>
