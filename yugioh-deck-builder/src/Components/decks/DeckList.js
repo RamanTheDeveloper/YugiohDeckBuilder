@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "reactjs-popup/dist/index";
 import Popup from "reactjs-popup/dist/index";
-import { db, firestore } from "../../Firebase/firebase";
-import {doc, setDoc, collection} from 'firebase/firestore'
+import { db } from '../../Firebase/firebase'
 
 function DeckList() {
   const [decks, setDecks] = useState();
@@ -11,18 +10,26 @@ function DeckList() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await firestore.collection(db, "Decks").add({ name: newDeck });
-    /*await setDoc(doc(db, "Decks", "Name"), {
-      name: input
-    })*/
-    setNewDeck(input);
-    getDecks();
+
+    const newDeckName = input.trim();
+
+    if (newDeckName) {
+      try {
+        await db.collection("Decks").add({ name: newDeckName });
+        setInput("");
+        getDecks();
+      } catch (error) {
+        console.log("Error adding new deck", error);
+      }
+    } else {
+      console.warn("Deck name cannot be empty!");
+    }
   };
 
   const getDecks = async () => {
-    const decksRef = await firestore.collection("Decks").get();
-    const decksData = decksRef.docs.map((doc) => doc.data());
-    setDecks(decksData);
+    //const decksRef = await firestore.collection("Decks").get();
+    //const decksData = decksRef.docs.map((doc) => doc.data());
+    //setDecks(decksData);
   };
 
   console.log(input);

@@ -1,22 +1,30 @@
-import React, { useState } from 'react'
-import {Link} from 'react-router-dom'
-import firebase from 'firebase/compat/app'
-import Logout from '../logout/Logout'
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { auth } from "../../Firebase/firebase";
+import Logout from "../logout/Logout";
+import { db } from "../../Firebase/firebase";
 
 function Navbar() {
+  const logo = require("../images/yugioh-logo.png");
 
-  const logo = require('../images/yugioh-logo.png')
+  const [currentUser, setCurrentUser] = useState(null)
+  const [isLoggedin, setIsLoggedin] = useState(false);
 
-  let currentuser = firebase.auth().currentUser
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(function (user) {
+      setCurrentUser(user)
 
-  const [isLoggedin, setIsLoggedin] = useState(false)
+      if (user) {
+        console.log("User is logged in:", user.email);
+        setIsLoggedin(true);
+      } else {
+        console.log("User is logged out");
+        setIsLoggedin(false);
+      }
+    });
 
-  firebase.auth().onAuthStateChanged(function(currentuser){
-    setIsLoggedin(!currentuser)
-    console.log(currentuser);
-    console.log(currentuser.email);
-  })
-
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="sticky flex flex-row justify-between align-middle flex-wrap bg-black w-full h-28 z-20 py-4 px-4">
@@ -52,7 +60,7 @@ function Navbar() {
         </li>
       </ul>
 
-      {isLoggedin ? (
+      {!isLoggedin ? (
         <ul className="flex justify-center align-middle list-none text-center pt-6 gap-0">
           <li>
             <a className="m-4 text-black bg-white px-6 py-2 rounded-2xl border-white border-2 hover:border-2-white decoration-none text-base font-semibold uppercase hover:text-white hover:bg-black hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300">
@@ -67,14 +75,19 @@ function Navbar() {
         </ul>
       ) : (
         <>
-        <div className='flex justify-center align-middle w-auto h-auto pt-6'>
-          <span className='text-white font-bold'>User</span>
-          <div><Logout/></div>
-        </div>
+          <div className="flex justify-center align-middle w-auto h-auto pt-6">
+            <span className="text-white font-bold">
+              {auth.currentUser.email}
+            </span>
+
+            <div>
+              <Logout />
+            </div>
+          </div>
         </>
       )}
     </div>
   );
 }
 
-export default Navbar
+export default Navbar;
