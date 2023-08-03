@@ -12,23 +12,23 @@ function DeckList() {
   const userLoggedIn = isLoggedIn()
   const navigate = useNavigate(0)
 
-  
+
 
   const getDecks = async () => {
-    try{
+    try {
       const decksRef = collection(db, 'Decks')
       const querySnapshot = await getDocs(decksRef)
       const decksData = querySnapshot.docs.map((doc) => doc.data())
       setDecks(decksData)
-    } catch (error){
+    } catch (error) {
       console.error('Error getting decks: ', error);
     }
   };
 
   useEffect(() => {
-    if(!userLoggedIn){
+    if (!userLoggedIn) {
       navigate('/login')
-    } else{
+    } else {
       getDecks();
     }
   }, [navigate, userLoggedIn]);
@@ -42,7 +42,7 @@ function DeckList() {
 
       const deckExists = decks.some((deck) => deck.name === newDeckName)
 
-      if(deckExists){
+      if (deckExists) {
         alert('Deck name already exists. Please choose a different name')
         return
       }
@@ -63,20 +63,20 @@ function DeckList() {
   const handleUpdate = async (deckId, newName) => {
     const updatedDeckName = prompt('Enter a new deck name:', newName)
 
-    if(updatedDeckName && updatedDeckName.trim() !== newName){
+    if (updatedDeckName && updatedDeckName.trim() !== newName) {
       const deckExists = decks.some(
         (deck) => deck.name === updatedDeckName.trim()
       )
 
-      if(deckExists){
+      if (deckExists) {
         alert('Deck name already exists. Please choose a different name...')
         return
       }
 
-      try{
-        await setDoc(doc(db, 'Decks', deckId), {name: updatedDeckName})
+      try {
+        await setDoc(doc(db, 'Decks', deckId), { name: updatedDeckName })
         getDecks()
-      } catch (error){
+      } catch (error) {
         console.log('Error updating deck', error);
       }
     }
@@ -87,7 +87,7 @@ function DeckList() {
       console.error("Invalid deckId. Cannot delete the deck.");
       return;
     }
-  
+
     if (window.confirm("Are you sure you want to delete this deck?")) {
       try {
         await deleteDoc(doc(db, "Decks", deckId));
@@ -129,7 +129,7 @@ function DeckList() {
               >
                 {(close) => (
                   <form onSubmit={handleSubmit}>
-                    <div className="modal border-2 p-4 rounded">
+                    <div className="modal border-2 p-4 rounded bg-white">
                       <button className="close" onClick={close}>
                         &times;
                       </button>
@@ -174,16 +174,28 @@ function DeckList() {
           </div>
           <div className="box-border border-2 border-black flex flex-col justify-center align-middle my-4 p-2">
             <p>Your Decks</p>
-            {decks ? (
+            {decks && decks.length > 0 ? (
               <ul className="flex-col justify-start">
                 {decks.map((deck) => (
-                  <li key={deck.id}>
-                    {deck.name}
-                    <button className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded" onClick={() => handleUpdate(deck.id, deck.name)}>
-                      Edit
-                    </button>
-                    <button className="box-border border-2 border-transparent w-max h-max bg-red-500 text-white py-2 px-1 rounded" onClick={() => handleDelete(deck.id)}>Delete</button>
-                  </li>
+                  deck.name && (
+                    <li key={deck.id} className="flex justify-between align-middle gap-3 py-3 px-3 border">
+                      {deck.name}
+                      <div className="flex gap-3">
+                        <button
+                          className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
+                          onClick={() => handleUpdate(deck.id, deck.name)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="box-border border-2 border-transparent w-max h-max bg-red-500 text-white py-2 px-1 rounded"
+                          onClick={() => handleDelete(deck.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  )
                 ))}
               </ul>
             ) : (
