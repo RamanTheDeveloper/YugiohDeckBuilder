@@ -47,8 +47,16 @@ function DeckList() {
         return
       }
 
+      
       try {
-        await addDoc(doc(db, "Decks", newDeckName), { name: newDeckName });
+        // Replace spaces with underscores
+        const formattedDeckName = newDeckName.replace(/\s+/g, '-');
+
+        const deckCollectionRef = collection(db, 'Decks')
+        
+        const newDeckRef = await addDoc(deckCollectionRef, {name: newDeckName})        
+        console.log('Document Reference:', newDeckRef.path);
+        
         setInput("");
         getDecks();
       } catch (error) {
