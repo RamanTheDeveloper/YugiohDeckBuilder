@@ -4,7 +4,7 @@ import Popup from "reactjs-popup/dist/index";
 import { Navigate, useNavigate } from 'react-router-dom'
 import { db } from "../../Firebase/firebase";
 import { isLoggedIn } from '../../Firebase/auth'
-import { setDoc, doc, collection, getDocs, addDoc, query, where, deleteDoc } from "firebase/firestore";
+import { setDoc, doc, collection, getDocs, addDoc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
 
 function DeckList() {
   const [decks, setDecks] = useState();
@@ -47,16 +47,16 @@ function DeckList() {
         return
       }
 
-      
+
       try {
         // Replace spaces with underscores
         const formattedDeckName = newDeckName.replace(/\s+/g, '-');
 
         const deckCollectionRef = collection(db, 'Decks')
-        
-        const newDeckRef = await addDoc(deckCollectionRef, {name: newDeckName})        
+
+        const newDeckRef = await addDoc(deckCollectionRef, { name: newDeckName })
         console.log('Document Reference:', newDeckRef.path);
-        
+
         setInput("");
         getDecks();
       } catch (error) {
@@ -68,27 +68,44 @@ function DeckList() {
     }
   };
 
-  const handleUpdate = async (deckId, newName) => {
-    const updatedDeckName = prompt('Enter a new deck name:', newName)
+  const handleUpdate = async (deckName, newName) => {
+    console.log('Current Deck name: ', newName);
 
-    if (updatedDeckName && updatedDeckName.trim() !== newName) {
+    const updatedDeckName = prompt('Enter a new deck name:', newName);
+    console.log('Updated deck name: ', updatedDeckName);
+
+    if (updatedDeckName === null || updatedDeckName.trim() === "") {
+      console.log('User cancelled update or entered empty name');
+      return;
+    }
+
+    if (updatedDeckName.trim() !== newName) {
       const deckExists = decks.some(
         (deck) => deck.name === updatedDeckName.trim()
-      )
+      );
 
       if (deckExists) {
-        alert('Deck name already exists. Please choose a different name...')
-        return
-      }
-
-      try {
-        await setDoc(doc(db, 'Decks', deckId), { name: updatedDeckName })
-        getDecks()
-      } catch (error) {
-        console.log('Error updating deck', error);
+        alert('Deck name already exists. Please choose a different name...');
+        return;
       }
     }
+
+    try {
+      const deckDocRef = doc(db, 'Decks', deckName);
+      const deckDoc = await getDoc(deckDocRef);
+
+      if (deckDoc.exists()) {
+        await setDoc(deckDocRef, { name: updatedDeckName });
+        console.log('Deck updated successfully');
+        getDecks();
+      } else {
+        console.log('Document not found:', deckName);
+      }
+    } catch (error) {
+      console.log('Error updating deck', error);
+    }
   }
+
 
   const handleDelete = async (deckId) => {
     if (!deckId) {
@@ -191,7 +208,7 @@ function DeckList() {
                       <div className="flex gap-3">
                         <button
                           className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
-                          onClick={() => handleUpdate(deck.id, deck.name)}
+                          onClick={() => handleUpdate(deck.name, deck.name)}
                         >
                           Edit
                         </button>
