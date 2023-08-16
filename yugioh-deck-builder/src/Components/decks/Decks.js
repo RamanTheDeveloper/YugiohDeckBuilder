@@ -1,38 +1,54 @@
 import React, { useEffect, useState } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
-import CardsSearch from './CardsSearch'
 import Search from './Search'
+import { AiFillStar } from 'react-icons/ai';
 
 function Decks(props) {
 
     const image = require('../images/blue-eyes-white-dragon.png')
 
     const [name, setName] = useState([])
+    const [selectedCard, setSelectedCard] = useState(null)
+
+    const handelCardClick = (card) => {
+        setSelectedCard(card)
+    }
 
     useEffect(() => {
         window.addEventListener('storage', (e) => {
             const localName = JSON.parse(localStorage.getItem('items'))
             console.log(localName)
-            if(localName){
+            if (localName) {
                 setName(localName)
             }
-            
+
         })
     }, [])
 
     return (
         <div className='h-screen w-full flex flex-row'>
             <div className='flex flex-row h-full w-full'>
-                <div className='flex flex-col h-full w-[55rem] gap-6 p-4'>
-                    <div className='flex border-solid border-2 border-black p-2'>
-                        <h1>{localStorage.getItem('items')}</h1>
-                    </div>
-                    <div className='flex justify-center w-[16rem]'>
-                        <img src={image} loading="lazy" />
-                    </div>
-                    <div className='flex flex-row border-black border-solid border-2 p-2'>
-                        <p>Card Desc</p>
-                    </div>
+                <div className="flex flex-col h-full w-[55rem] gap-6 p-4">
+                    {selectedCard ? (
+                        <>
+                            <div className="flex border-solid border-2 border-black p-2">
+                                <h1>{selectedCard.name}</h1>
+                            </div>
+                            <div className="flex justify-center w-[16rem]">
+                                <img src={selectedCard.card_images[0].image_url} alt="Selected Card" />
+                            </div>
+                            <div className="flex flex-col border-black border-solid border-2 p-2">
+                                <p>{selectedCard.attribute}/{selectedCard.race}/{selectedCard.type}</p>
+                                <div className='flex flex-row'>
+                                    <span><AiFillStar /> {selectedCard.level}</span>
+                                </div>
+                                <p>{selectedCard.atk}/{selectedCard.def}</p><br/>
+                                <p>{selectedCard.desc}</p>
+                            </div>
+                        </>
+                    ) : (
+                        <p>No card selected</p>
+                    )}
                 </div>
                 <div className='flex flex-col w-[100rem] gap-3 p-4'>
                     <div className='flex flex-row justify-between border-black border-solid border-2 p-2'>
@@ -92,7 +108,7 @@ function Decks(props) {
                 </div>
                 <div className='flex flex-col w-[45rem] overflow-y-auto'>
                     <div className='flex flex-col'>
-                        <Search getName={name => setName(name)} />
+                        <Search onCardClick={handelCardClick} />
                     </div>
                 </div>
 

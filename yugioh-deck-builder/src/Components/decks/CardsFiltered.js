@@ -16,12 +16,6 @@ function CardsFiltered(props) {
 
     let lastIndex = 50
 
-    const [name, setName] = useState()
-
-    useEffect(() => {
-        localStorage.setItem('items', JSON.stringify(name))
-        //console.log(name)
-    }, [name])
 
 
 
@@ -31,7 +25,7 @@ function CardsFiltered(props) {
                 <div className='box-border h-auto w-[35rem] border-2 border-slate-600 flex flex-col justify-center align-middle'>
                     {filteredData.splice(0, lastIndex).map((card) => {
                         return (
-                            <div key={card.id} onMouseOver={() => setName(card.name)} className='flex h-full w-full justify-center align-middle box-border border-2 gap-3 overflow-auto myCard'>
+                            <div key={card.id} onClick={() => { props.onCardClick(card); console.log('Card clicked', card);}} className='flex h-full w-full justify-center align-middle box-border border-2 gap-3 overflow-auto myCard'>
                                 <div className='flex h-40 w-56 justify-center align-middle'>
                                     <img src={card.card_images[0].image_url_small} className='w-auto h-auto' alt="Yugioh Card Image" loading='lazy'
                                     />

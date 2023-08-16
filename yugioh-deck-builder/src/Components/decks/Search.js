@@ -19,8 +19,10 @@ function Search(props) {
         clickPoint.current.style.display = "block";
     };
 
-    
-    const [cardName, setCardName] = useState()
+    const handleCardClickInFiltered = (card) => {
+        props.onCardClick(card)
+        console.log('Card clicked', card);
+    }
     
     
     return (
@@ -42,7 +44,7 @@ function Search(props) {
             </div>
             <div>
                 <Suspense fallback={<div>Loading...</div>}>
-                    <CardsFiltered input={inputText} onMouseOver={() => props.getName(cardName)} getCardName={cardName => setCardName(cardName)}/>
+                    <CardsFiltered input={inputText} onCardClick={handleCardClickInFiltered}/>
                 </Suspense>
             </div>
         </>
