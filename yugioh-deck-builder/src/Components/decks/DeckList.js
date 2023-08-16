@@ -15,6 +15,9 @@ function DeckList() {
   const [filteredDecks, setFilteredDecks] = useState(decks)
 
 
+  const handleDeckClick = (deckId) => {
+    navigate('/decks/${deckId}')
+  }
 
   const getDecks = async () => {
     try {
@@ -228,6 +231,12 @@ function DeckList() {
                       <li key={deck.id} className="flex justify-between align-middle gap-3 py-3 px-3 border">
                         {deck.name}
                         <div className="flex gap-3">
+                        <button
+                            className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
+                            onClick={() => handleUpdate(handleDeckClick(deck.id))}
+                          >
+                            View
+                          </button>
                           <button
                             className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
                             onClick={() => handleUpdate(deck.name, deck.id)}
@@ -249,6 +258,12 @@ function DeckList() {
                       <li key={deck.id} className="flex justify-between align-middle gap-3 py-3 px-3 border">
                         {deck.name}
                         <div className="flex gap-3">
+                        <button
+                            className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
+                            onClick={() => handleDeckClick(deck.id)}
+                          >
+                            View
+                          </button>
                           <button
                             className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
                             onClick={() => handleUpdate(deck.name, deck.id)}

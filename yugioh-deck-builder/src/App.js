@@ -19,6 +19,7 @@ function App() {
       <Routes>
         <Route index element={<Homepage />} />
         <Route path='deck-list' element={<DeckList />} />
+        <Route path='/decks/:deckId' element={<Decks />}/>
         <Route path='profile' element={<Profile />} />
         <Route path='reset' element={<Reset />} />
         <Route path='login' element={<Login />} />
