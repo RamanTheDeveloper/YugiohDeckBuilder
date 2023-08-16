@@ -11,6 +11,8 @@ function DeckList() {
   const [input, setInput] = useState();
   const userLoggedIn = isLoggedIn()
   const navigate = useNavigate(0)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [filteredDecks, setFilteredDecks] = useState(decks)
 
 
 
@@ -29,9 +31,26 @@ function DeckList() {
     if (!userLoggedIn) {
       navigate('/login')
     } else {
-      getDecks();
+      getDecks()
     }
   }, [navigate, userLoggedIn]);
+
+  const handleSearchInputChange = (event) => {
+    const query = event.target.value.toLowerCase()
+    setSearchQuery(query)
+
+    if (decks) {
+      if (query.trim() === "") {
+        setFilteredDecks(decks)
+      }
+      else {
+        const filtered = decks.filter((deck) =>
+          deck.name.toLowerCase().includes(query)
+        )
+        setFilteredDecks(filtered)
+      }
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -138,6 +157,8 @@ function DeckList() {
               name="Search"
               placeholder="Search deck..."
               className="border-2 p-2"
+              value={searchQuery}
+              onChange={handleSearchInputChange}
             />
             <div className="flex justify-start align-middle gap-3">
               <Popup
@@ -201,27 +222,50 @@ function DeckList() {
             <p>Your Decks</p>
             {decks && decks.length > 0 ? (
               <ul className="flex-col justify-start">
-                {decks.map((deck) => (
-                  deck.name && (
-                    <li key={deck.id} className="flex justify-between align-middle gap-3 py-3 px-3 border">
-                      {deck.name}
-                      <div className="flex gap-3">
-                        <button
-                          className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
-                          onClick={() => handleUpdate(deck.name, deck.name)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="box-border border-2 border-transparent w-max h-max bg-red-500 text-white py-2 px-1 rounded"
-                          onClick={() => handleDelete(deck.id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </li>
-                  )
-                ))}
+                {searchQuery ?
+                  filteredDecks.map((deck) => (
+                    deck.name && (
+                      <li key={deck.id} className="flex justify-between align-middle gap-3 py-3 px-3 border">
+                        {deck.name}
+                        <div className="flex gap-3">
+                          <button
+                            className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
+                            onClick={() => handleUpdate(deck.name, deck.id)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="box-border border-2 border-transparent w-max h-max bg-red-500 text-white py-2 px-1 rounded"
+                            onClick={() => handleDelete(deck.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </li>
+                    )
+                  )) :
+                  decks.map((deck) => (
+                    deck.name && (
+                      <li key={deck.id} className="flex justify-between align-middle gap-3 py-3 px-3 border">
+                        {deck.name}
+                        <div className="flex gap-3">
+                          <button
+                            className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
+                            onClick={() => handleUpdate(deck.name, deck.id)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="box-border border-2 border-transparent w-max h-max bg-red-500 text-white py-2 px-1 rounded"
+                            onClick={() => handleDelete(deck.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </li>
+                    )
+                  ))
+                }
               </ul>
             ) : (
               <p className="font-extralight text-sm italic">No decks available...</p>
