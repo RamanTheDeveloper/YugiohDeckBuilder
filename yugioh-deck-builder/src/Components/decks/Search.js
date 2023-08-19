@@ -48,7 +48,7 @@ function Search(props) {
             </div>
             <div>
                 <Suspense fallback={<div>Loading...</div>}>
-                    <CardsFiltered input={inputText} onFilteredDataChange={handleFilteredDataChange} onCardClick={handleCardClickInFiltered}/>
+                    <CardsFiltered input={inputText} onFilteredDataChange={props.handleFilteredDataChange} onCardClick={handleCardClickInFiltered}/>
                 </Suspense>
             </div>
         </>

@@ -18,8 +18,12 @@ function CardsFiltered(props) {
     let lastIndex = 50
 
     useEffect(() => {
-        props.onFilteredDataChange(filteredData)
-    }, [filteredData])
+        if (props.onFilteredDataChange) {
+            props.onFilteredDataChange(filteredData);
+            console.log('Test');
+        }
+    }, [filteredData, props.onFilteredDataChange]);
+    
 
     
   return (
@@ -33,7 +37,7 @@ function CardsFiltered(props) {
               className='box-border h-auto w-[35rem] border-2 border-slate-600 flex flex-col justify-center align-middle'
             >
               {filteredData.slice(0, lastIndex).map((card, index) => (
-                <Draggable key={card.id} draggableId={card.id} index={index}>
+                <Draggable key={card.id.toString()} draggableId={card.id.toString()} index={index}>
                   {(provided) => (
                     <div
                       ref={provided.innerRef}

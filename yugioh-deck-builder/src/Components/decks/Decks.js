@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useState } from 'react'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import Search from './Search'
 import { AiFillStar } from 'react-icons/ai';
@@ -15,16 +15,9 @@ function Decks(props) {
         setSelectedCard(card)
     }
 
-    useEffect(() => {
-        window.addEventListener('storage', (e) => {
-            const localName = JSON.parse(localStorage.getItem('items'))
-            console.log(localName)
-            if (localName) {
-                setName(localName)
-            }
-
-        })
-    }, [])
+    const handleFilteredDataChange = (filteredData) => {
+        setFilteredData(filteredData);
+    }
 
     return (
         <div className='h-screen w-full flex flex-row'>
@@ -136,7 +129,7 @@ function Decks(props) {
                 </div>
                 <div className='flex flex-col w-[45rem] overflow-y-auto'>
                     <div className='flex flex-col'>
-                        <Search onCardClick={handelCardClick} onFilteredDataChange={setFilteredData} />
+                        <Search onCardClick={handelCardClick} onFilteredDataChange={handleFilteredDataChange} />
                     </div>
                 </div>
 
