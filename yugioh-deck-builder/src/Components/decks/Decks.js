@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 import Search from './Search'
 import { AiFillStar } from 'react-icons/ai';
 
@@ -9,6 +9,7 @@ function Decks(props) {
 
     const [name, setName] = useState([])
     const [selectedCard, setSelectedCard] = useState(null)
+    const [filteredData, setFilteredData] = useState([])
 
     const handelCardClick = (card) => {
         setSelectedCard(card)
@@ -42,7 +43,7 @@ function Decks(props) {
                                 <div className='flex flex-row'>
                                     <span><AiFillStar /> {selectedCard.level}</span>
                                 </div>
-                                <p>{selectedCard.atk}/{selectedCard.def}</p><br/>
+                                <p>{selectedCard.atk}/{selectedCard.def}</p><br />
                                 <p>{selectedCard.desc}</p>
                             </div>
                         </>
@@ -63,13 +64,40 @@ function Decks(props) {
                         </div>
                     </div>
                     <div className='flex flex-row flex-wrap border-black border-2 border-solid'>
-                        <DragDropContext>
-                            <img src={image} alt="Card" className='w-20' />
-                            <img src={image} alt="Card" className='w-20' />
-                            <img src={image} alt="Card" className='w-20' />
-                            <img src={image} alt="Card" className='w-20' />
-                            <img src={image} alt="Card" className='w-20' />
-                        </DragDropContext>
+                        <Droppable droppableId='main-zone'>
+                            {(provided) => (
+                                <div
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    className='flex flex-row flex-wrap'
+                                >
+                                    {filteredData.slice(0, 50).map((card, index) => (
+                                        <Draggable
+                                            key={card.id}
+                                            draggableId={card.id.toString()}
+                                            index={index}
+                                        >
+                                            {(provided) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    <img
+                                                        src={image}
+                                                        alt="Card"
+                                                        className='w-20'
+                                                    />
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+
+
                     </div>
                     <div className='flex flex-row justify-between border-black border-solid border-2 p-2'>
                         <div>
@@ -108,7 +136,7 @@ function Decks(props) {
                 </div>
                 <div className='flex flex-col w-[45rem] overflow-y-auto'>
                     <div className='flex flex-col'>
-                        <Search onCardClick={handelCardClick} />
+                        <Search onCardClick={handelCardClick} onFilteredDataChange={setFilteredData} />
                     </div>
                 </div>
 
