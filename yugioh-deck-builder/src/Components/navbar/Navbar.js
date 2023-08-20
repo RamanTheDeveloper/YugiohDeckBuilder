@@ -94,7 +94,7 @@ function Navbar() {
             </li>
             <li>
               <a className="m-8 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300" onClick={handleLinkClick}>
-                Wishlist
+                <Link to="/wishlist">Wishlist</Link>
               </a>
             </li>
             <li>
@@ -125,7 +125,7 @@ function Navbar() {
         </li>
         <li>
           <a className="m-8 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300">
-            Wishlist
+            <Link to="/wishlist">Wishlist</Link>
           </a>
         </li>
         <li>
