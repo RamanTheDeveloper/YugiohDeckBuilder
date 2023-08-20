@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../Firebase/firebase";
 import Logout from "../logout/Logout";
@@ -11,6 +11,8 @@ function Navbar() {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
+  const menuRef = useRef(null)
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(function (user) {
       setCurrentUser(user)
@@ -22,10 +24,31 @@ function Navbar() {
         console.log("User is logged out");
         setIsLoggedin(false);
       }
-    });
-
+    })
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [showMenu]);
+
+  const handleLinkClick = () => {
+    setShowMenu(false);
+  };
 
   return (
     <div className="sticky flex flex-row justify-between align-middle flex-wrap bg-black w-full h-28 z-20 py-4 px-4">
@@ -49,7 +72,15 @@ function Navbar() {
       </div>
 
       {showMenu && (
-        <div className="md:hidden fixed top-0 left-0 w-full h-screen bg-black opacity-90 z-30">
+        <div className="md:hidden fixed top-0 left-0 w-full h-screen bg-black opacity-90 z-30" ref={menuRef}>
+          <div className="flex justify-end p-4">
+            <button
+              onClick={() => setShowMenu(false)}
+              className="text-white text-xl focus:outline-none"
+            >
+              &#10005;
+            </button>
+          </div>
           <ul className="flex flex-col justify-between align-middle list-none text-center pt-6 gap-5">
             {isLoggedin && (
               <li className="mb-4">
@@ -57,22 +88,22 @@ function Navbar() {
               </li>
             )}
             <li>
-              <a className="m-8 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300">
+              <a className="m-8 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300" onClick={handleLinkClick}>
                 <Link to="/deck-list">Decks</Link>
               </a>
             </li>
             <li>
-              <a className="m-8 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300">
+              <a className="m-8 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300" onClick={handleLinkClick}>
                 Wishlist
               </a>
             </li>
             <li>
-              <a className="m-8 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300">
+              <a className="m-8 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300" onClick={handleLinkClick}>
                 Ownlist
               </a>
             </li>
             <li>
-              <a className="m-4 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300">
+              <a className="m-4 text-white decoration-none text-base font-semibold uppercase hover:text-black hover:bg-white hover:rounded-2xl hover:px-6 hover:py-2 hover:transition-all ease-in-out duration-300" onClick={handleLinkClick}>
                 <Link to="/profile">Profile</Link>
               </a>
             </li>
