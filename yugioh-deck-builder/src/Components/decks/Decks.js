@@ -1,5 +1,5 @@
-import React, {useState } from 'react'
-import { Droppable, Draggable } from 'react-beautiful-dnd'
+import React, { useState } from 'react'
+import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd'
 import Search from './Search'
 import { AiFillStar } from 'react-icons/ai';
 
@@ -10,6 +10,8 @@ function Decks(props) {
     const [name, setName] = useState([])
     const [selectedCard, setSelectedCard] = useState(null)
     const [filteredData, setFilteredData] = useState([])
+    const [mainZoneCards, setMainZoneCards] = useState([])
+    const [isDraggingOver, setIsDraggingOver] = useState(false)
 
     const handelCardClick = (card) => {
         setSelectedCard(card)
@@ -17,6 +19,18 @@ function Decks(props) {
 
     const handleFilteredDataChange = (filteredData) => {
         setFilteredData(filteredData);
+    }
+
+    const handleDragEnd = (result) => {
+        if (!result.destination) {
+            return;
+        }
+
+        const updatedMainZoneCards = Array.from(mainZoneCards);
+        const movedCard = filteredData.find(card => card.id.toString() === result.draggableId);
+        updatedMainZoneCards.splice(result.destination.index, 0, movedCard);
+
+        setMainZoneCards(updatedMainZoneCards);
     }
 
     return (
@@ -56,41 +70,43 @@ function Decks(props) {
                             <p>TR[4]</p>
                         </div>
                     </div>
-                    <div className='flex flex-row flex-wrap border-black border-2 border-solid'>
-                        <Droppable droppableId='main-zone'>
-                            {(provided) => (
-                                <div
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                    className='flex flex-row flex-wrap'
-                                >
-                                    {filteredData.slice(0, 50).map((card, index) => (
-                                        <Draggable
-                                            key={card.id}
-                                            draggableId={card.id.toString()}
-                                            index={index}
-                                        >
-                                            {(provided) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    <img
-                                                        src={image}
-                                                        alt="Card"
+                    <div className='flex flex-row flex-wrap border-black border-2 border-solid h-28'>
+                        <DragDropContext onDragEnd={handleDragEnd} onDragEnter={() => setIsDraggingOver(true)} onDragLeave={() => setIsDraggingOver(false)}>
+                            <Droppable droppableId='main-zone'>
+                                {(provided) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                        className={`flex flex-row flex-wrap p-2 ${isDraggingOver ? 'border-dashed border-blue-500' : 'border-solid border-black'
+                                            }`}
+                                    >
+                                        {mainZoneCards.map((card, index) => (
+                                            <Draggable
+                                                key={card.id.toString()}
+                                                draggableId={card.id.toString()}
+                                                index={index}
+                                            >
+                                                {(provided) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
                                                         className='w-20'
-                                                    />
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-
-
+                                                    >
+                                                        <img
+                                                            src={card.card_images[0].image_url_small}
+                                                            alt="Card"
+                                                            className='w-auto h-auto'
+                                                        />
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
                     </div>
                     <div className='flex flex-row justify-between border-black border-solid border-2 p-2'>
                         <div>
@@ -104,10 +120,6 @@ function Decks(props) {
                         </div>
                     </div>
                     <div className='flex flex-row flex-wrap border-black border-2 border-solid'>
-                        <img src={image} alt="Card" className='w-20' />
-                        <img src={image} alt="Card" className='w-20' />
-                        <img src={image} alt="Card" className='w-20' />
-                        <img src={image} alt="Card" className='w-20' />
                         <img src={image} alt="Card" className='w-20' />
                     </div>
                     <div className='flex flex-row justify-between border-black border-solid border-2 p-2'>
