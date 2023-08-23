@@ -35,8 +35,8 @@ function Decks(props) {
 
     return (
         <div className='h-screen w-full flex flex-row'>
-            <div className='flex flex-row h-full w-full'>
-                <div className="flex flex-col h-full w-[55rem] gap-6 p-4">
+            <div className='flex flex-row h-full w-full gap-1'>
+                <div className="flex flex-col h-full w-[50rem] gap-6 p-4">
                     {selectedCard ? (
                         <>
                             <div className="flex border-solid border-2 border-black p-2">
@@ -139,8 +139,8 @@ function Decks(props) {
                         <img src={image} alt="Card" className='w-20' />
                     </div>
                 </div>
-                <div className='flex flex-col w-auto overflow-y-auto'>
-                    <div className='flex flex-col'>
+                <div className='flex flex-col w-[50rem] px-4'>
+                    <div className='flex flex-col w-auto overflow-y-auto'>
                         <Search onCardClick={handelCardClick} onFilteredDataChange={handleFilteredDataChange} />
                     </div>
                 </div>
