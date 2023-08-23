@@ -2,33 +2,41 @@ import React, { useState, useEffect } from "react";
 import { auth, db } from "../../Firebase/firebase";
 import { Link } from "react-router-dom";
 import { AiFillStar } from 'react-icons/ai';
+import { getDocs, collection, doc } from 'firebase/firestore'
 
 function Wishlist() {
   const [currentUser, setCurrentUser] = useState(null);
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(function (user) {
-      setCurrentUser(user);
-      
-      if (user) {
-        // Fetch user's wishlist from Firebase
-        db.collection("users")
-          .doc(user.uid)
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              setWishlist(doc.data().wishlist || []);
-            }
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      const userWishlistRef = collection(db, 'Wishlist', userId, 'cardId');
+      console.log(userWishlistRef);
+  
+      getDocs(userWishlistRef)
+        .then((querySnapshot) => {
+          const wishlistData = [];
+          querySnapshot.forEach((doc) => {
+            const cardData = doc.data(); // Card data from the subcollection
+            wishlistData.push(cardData);
           });
-      }
-    });
-    return () => unsubscribe();
+          console.log('Fetched wishlist data:', wishlistData);
+          setWishlist(wishlistData);
+          console.log('WishlistData: ', wishlistData);
+        })
+        .catch((error) => {
+          console.error('Error fetching wishlist:', error);
+        });
+    }
   }, []);
+  
+  
+  
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="text-3xl font-semibold mb-6">Wishlist</h2>
+      <h2 className="text-3xl font-semibold mb-6">Your Wishlist</h2>
       <div className="grid grid-cols-3 gap-4">
         {wishlist.map((card) => (
           <div key={card.id} className="bg-white shadow-md rounded-lg p-4">
