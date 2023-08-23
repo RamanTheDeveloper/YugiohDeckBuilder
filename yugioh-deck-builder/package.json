@@ -15,9 +15,10 @@
     "react-favicon": "^1.0.1",
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.44.3",
-    "react-icons": "^4.6.0",
+    "react-icons": "^4.10.1",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
+    "reactjs-popup": "^2.0.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

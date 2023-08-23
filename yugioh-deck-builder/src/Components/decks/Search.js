@@ -1,6 +1,6 @@
-import React, { useState, Suspense } from 'react'
+import React, { useState, Suspense, useEffect } from 'react'
 import { useRef } from 'react'
-//import CardsFiltered from './CardsFiltered'
+
 const CardsFiltered = React.lazy(() => import('./CardsFiltered'))
 
 function Search(props) {
@@ -19,8 +19,14 @@ function Search(props) {
         clickPoint.current.style.display = "block";
     };
 
-    
-    const [cardName, setCardName] = useState()
+    const handleCardClickInFiltered = (card) => {
+        props.onCardClick(card)
+        console.log('Card clicked', card);
+    }
+
+    const handleFilteredDataChange = (filteredData) => {
+        props.onFilteredDataChange(filteredData)
+    }
     
     
     return (
@@ -42,7 +48,7 @@ function Search(props) {
             </div>
             <div>
                 <Suspense fallback={<div>Loading...</div>}>
-                    <CardsFiltered input={inputText} onMouseOver={() => props.getName(cardName)} getCardName={cardName => setCardName(cardName)}/>
+                    <CardsFiltered input={inputText} onFilteredDataChange={props.handleFilteredDataChange} onCardClick={handleCardClickInFiltered}/>
                 </Suspense>
             </div>
         </>

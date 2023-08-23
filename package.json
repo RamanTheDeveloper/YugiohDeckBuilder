@@ -1,5 +1,9 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "firebase": "^9.16.0"
+=======
+    "firebase": "^10.1.0"
+>>>>>>> origin/main-placeholder
   }
 }

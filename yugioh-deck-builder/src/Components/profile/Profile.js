@@ -1,27 +1,38 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { auth } from "../../Firebase/firebase";
+import Logout from "../logout/Logout";
+import { HiOutlineUserCircle } from 'react-icons/hi';
 
 function Profile() {
+  const [currentUser, setCurrentUser] = useState(null);
 
-    const profile_img = require("../images/profile.png")
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(function (user) {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
-    <>
-        <div className='w-full h-full p-6 flex justify-center'>
-            <div className='flex flex-col justify-center align-middle items-center w-[45rem] h-[50rem] border-2 gap-3'>
-                <div className='flex flex-row'>
-                    <div className='flex flex-col w-full h-full'>
-                        <img src={profile_img} alt="" className='w-10 h-10'/>
-                        <h1>Someone</h1>
-                    </div>
-
-                </div>
-                <div className='flex flex-row '>
-                    <h1>Account Settings</h1>
-                </div>
-            </div>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <div className="bg-white shadow-md rounded-lg p-8 w-96">
+        <div className="flex items-center justify-center mb-4">
+          <HiOutlineUserCircle className="text-6xl text-blue-600" />
         </div>
-    </>
-  )
+        <div className="text-center mb-4">
+          <h2 className="text-xl font-semibold">{currentUser?.displayName || "Guest"}</h2>
+          <p className="text-gray-500">{currentUser?.email || "guest@example.com"}</p>
+        </div>
+        <div className="text-center">
+          {currentUser ? (
+            <Logout />
+          ) : (
+            <p className="text-gray-500">You are not logged in</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default Profile
+export default Profile;
