@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Cards from '../../JsonData/FormattedData.json'
 import { auth, db } from "../../Firebase/firebase";
-import {setDoc, doc, updateDoc, arrayUnion} from 'firebase/firestore'
+import { setDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore'
 
 function CardDisplay(props) {
 
@@ -29,22 +29,24 @@ function CardDisplay(props) {
 
     const [wishlist, setWishlist] = useState([])
 
-    const addToWishlist = async (card) => {
+    const addToWishlist = (card) => {
         if (!wishlist.some((item) => item.id === card.id)) {
-          setWishlist([...wishlist, card]);
-    
-          if (currentUser) {
-            const wishlistRef = doc(db, 'users', currentUser.uid); 
-            
-            try {
-              await setDoc(wishlistRef, { wishlist: arrayUnion(card) }, { merge: true });
-              console.log('Card added to wishlist');
-            } catch (error) {
-              console.error('Error adding card to wishlist:', error);
+            setWishlist([...wishlist, card]);
+
+            if (auth.currentUser) {
+                const userId = auth.currentUser.uid;
+                const wishlistRef = doc(db, 'Wishlist', userId);
+
+                setDoc(wishlistRef, { [card.id]: card }, { merge: true })
+                    .then(() => {
+                        console.log('Card added to wishlist successfully!');
+                    })
+                    .catch((error) => {
+                        console.error('Error adding card to wishlist:', error);
+                    });
             }
-          }
         }
-      }
+    }
 
 
     return (
