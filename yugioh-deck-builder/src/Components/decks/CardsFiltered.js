@@ -28,7 +28,7 @@ function CardsFiltered(props) {
 
     return (
         <DragDropContext>
-            <div className='flex justify-center align-middle px-4 overflow-y-auto overflow-x-hidden font-normal'>
+            <div className='flex justify-center align-middle px-4 overflow-y-auto overflow-x-hidden font-normal' >
                 <Droppable droppableId="main-zone">
                     {(provided) => (
                         <div
@@ -37,10 +37,12 @@ function CardsFiltered(props) {
                             className='box-border h-auto w-[35rem] border-2 border-slate-600 flex flex-col justify-center align-middle'
                         >
                             {filteredData.slice(0, lastIndex).map((card, index) => (
-                                console.log('Card ID: ', card.id.toString()),
                                 <Draggable key={card.id.toString()} draggableId={card.id.toString()} index={index}>
                                     {(provided) => (
                                         <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
                                             onClick={() => {
                                                 props.onCardClick(card);
                                                 console.log('Card clicked', card);
