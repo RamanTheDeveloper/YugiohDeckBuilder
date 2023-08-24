@@ -213,12 +213,6 @@ function DeckList() {
                   </form>
                 )}
               </Popup>
-              <a
-                href="#"
-                className="box-border border-2 border-transparent w-max h-max bg-red-500 text-white py-2 px-1 rounded"
-              >
-                Delete
-              </a>
             </div>
           </div>
           <div className="box-border border-2 border-black flex flex-col justify-center align-middle my-4 p-2">
