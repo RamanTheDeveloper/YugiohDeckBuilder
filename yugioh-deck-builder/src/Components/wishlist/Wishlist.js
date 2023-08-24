@@ -5,33 +5,46 @@ import { AiFillStar } from 'react-icons/ai';
 import { getDocs, collection, doc } from 'firebase/firestore'
 
 function Wishlist() {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [wishlist, setWishlist] = useState([]);
 
-  useEffect(() => {
-    if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
-      const userWishlistRef = collection(db, 'Wishlist', userId, 'cardId');
-      console.log(userWishlistRef);
-  
-      getDocs(userWishlistRef)
-        .then((querySnapshot) => {
-          const wishlistData = [];
-          querySnapshot.forEach((doc) => {
-            const cardData = doc.data(); // Card data from the subcollection
-            wishlistData.push(cardData);
-          });
-          console.log('Fetched wishlist data:', wishlistData);
-          setWishlist(wishlistData);
-          console.log('WishlistData: ', wishlistData);
-        })
-        .catch((error) => {
-          console.error('Error fetching wishlist:', error);
-        });
-    }
-  }, []);
-  
-  
+    const [currentUser, setCurrentUser] = useState(null);
+    const [wishlist, setWishlist] = useState([]);
+
+    useEffect(() => {
+      console.log("Effect triggered"); 
+
+      const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+        console.log("Auth state changed:", user); 
+
+        if (user) {
+          const userId = user.uid;
+          console.log("User ID:", userId); 
+          const userWishlistRef = collection(db, 'Users', userId, 'Wishlist');
+
+          getDocs(userWishlistRef)
+            .then((querySnapshot) => {
+              const wishlistData = [];
+              querySnapshot.forEach((doc) => {
+                const cardData = doc.data(); 
+                wishlistData.push(cardData);
+              });
+              console.log('Fetched wishlist data:', wishlistData);
+              setWishlist(wishlistData);
+            })
+            .catch((error) => {
+              console.error('Error fetching wishlist:', error);
+            });
+        } else {
+          console.log("User is not authenticated");
+          setWishlist([]);
+        }
+      });
+
+      return () => {
+        unsubscribeAuth();
+      };
+    }, []);
+
+    console.log("Component render:", currentUser); 
   
 
   return (
