@@ -60,6 +60,36 @@ function CardDisplay(props) {
         }
     }
 
+    const [ownlist, setOwnlist] = useState([])
+
+    const addToOwnlist = (card) => {
+        if(!ownlist.some((item) => item.id === card.id)){
+            setOwnlist([...ownlist, card])
+
+            if(auth.currentUser){
+                const userId = auth.currentUser.uid
+                const ownlistRef = doc(db, 'Ownlist', userId)
+
+                setDoc(ownlistRef, { [card.id]: card}, {merge: true})
+                .then(() => {
+                    console.log('Card added to ownlist successfully!');
+                })
+                .catch((error) => {
+                    console.log('Error adding deck to ownlist');
+                })
+                toast.success(`Added ${card.name} to your ownlist!`, {
+                    position: 'top-right',
+                    autoClose: 3000, // Duration in milliseconds
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                  });
+            }
+
+        }
+    }
+
 
     return (
         <>
@@ -77,7 +107,7 @@ function CardDisplay(props) {
                                 </div>
                                 <div className="flex flex-row justify-center align-middle gap-3 h-full w-auto">
                                     <button className='bg-red-500 text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-red-800 hover-shadow-lg' onClick={() => addToWishlist(card)}>Wishlist</button>
-                                    <button className='bg-black text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-gray-800 hover-shadow-lg'>Ownlist</button>
+                                    <button className='bg-black text-white font-medium h-14 w-auto rounded p-2 shadow-md hover:bg-gray-800 hover-shadow-lg' onClick={() => addToOwnlist(card)}>Ownlist</button>
                                 </div>
                             </div>
                         )
