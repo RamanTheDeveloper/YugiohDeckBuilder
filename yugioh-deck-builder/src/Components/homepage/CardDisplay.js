@@ -47,16 +47,16 @@ function CardDisplay(props) {
                     .catch((error) => {
                         console.error('Error adding card to wishlist:', error);
                     });
+                    toast.success(`Added ${card.name} to your wishlist!`, {
+                        position: 'top-right',
+                        autoClose: 3000, // Duration in milliseconds
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                      });
             }
             
-            toast.success(`Added ${card.name} to your wishlist!`, {
-                position: 'top-right',
-                autoClose: 3000, // Duration in milliseconds
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-              });
         }
     }
 
