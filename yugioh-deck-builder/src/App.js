@@ -13,6 +13,7 @@ import Reset from './Components/login/Reset';
 import NoPage from './Components/nopage/NoPage'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Ownlist from './Components/ownlist/Ownlist';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path='/decks/:deckId' element={<Decks />}/>
         <Route path='profile' element={<Profile />} />
         <Route path='wishlist' element={<Wishlist />} />
+        <Route path='ownlist' element={<Ownlist />} />
         <Route path='reset' element={<Reset />} />
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Registration />} />
