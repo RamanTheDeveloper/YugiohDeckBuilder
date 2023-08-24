@@ -5,8 +5,10 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { db } from "../../Firebase/firebase";
 import { isLoggedIn } from '../../Firebase/auth'
 import { setDoc, doc, collection, getDocs, addDoc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
+import { toast } from 'react-toastify';
 
 function DeckList() {
+
   const [decks, setDecks] = useState();
   const [input, setInput] = useState();
   const userLoggedIn = isLoggedIn()
@@ -23,7 +25,10 @@ function DeckList() {
     try {
       const decksRef = collection(db, 'Decks')
       const querySnapshot = await getDocs(decksRef)
-      const decksData = querySnapshot.docs.map((doc) => doc.data())
+      const decksData = querySnapshot.docs.map((doc) => ({
+        id: doc.id, // This is the document ID
+        ...doc.data(),
+      }));
       setDecks(decksData)
     } catch (error) {
       console.error('Error getting decks: ', error);
@@ -139,8 +144,10 @@ function DeckList() {
       try {
         await deleteDoc(doc(db, "Decks", deckId));
         getDecks();
+        toast.success(`Deck has been deleted successfully!`);
       } catch (error) {
         console.log("Error deleting deck", error);
+        toast.error(`Error deleting deck. Please try again.`);
       }
     }
   }
@@ -226,7 +233,7 @@ function DeckList() {
                         {deck.name}
                         <div className="flex gap-3">
                         <button
-                            className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
+                            className="box-border border-2 border-transparent w-max h-max bg-blue-500 text-white py-2 px-1 rounded"
                             onClick={() => handleUpdate(handleDeckClick(deck.id))}
                           >
                             View
