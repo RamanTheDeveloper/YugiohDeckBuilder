@@ -11,6 +11,9 @@ import Wishlist from './Components/wishlist/Wishlist';
 import DeckList from './Components/decks/DeckList';
 import Reset from './Components/login/Reset';
 import NoPage from './Components/nopage/NoPage'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
@@ -27,6 +30,7 @@ function App() {
         <Route path='register' element={<Registration />} />
         <Route path='*' element={<NoPage />} />
       </Routes>
+      <ToastContainer />
     </>
   );
 }

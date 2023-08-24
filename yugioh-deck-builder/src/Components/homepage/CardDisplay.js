@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Cards from '../../JsonData/FormattedData.json'
 import { auth, db } from "../../Firebase/firebase";
 import { setDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function CardDisplay(props) {
 
@@ -45,6 +48,15 @@ function CardDisplay(props) {
                         console.error('Error adding card to wishlist:', error);
                     });
             }
+            
+            toast.success(`Added ${card.name} to your wishlist!`, {
+                position: 'top-right',
+                autoClose: 3000, // Duration in milliseconds
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+              });
         }
     }
 
