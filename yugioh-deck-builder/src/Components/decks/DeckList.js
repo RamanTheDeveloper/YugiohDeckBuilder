@@ -95,43 +95,46 @@ function DeckList() {
     }
   };
 
-  const handleUpdate = async (deckName, newName) => {
-    console.log('Current Deck name: ', newName);
-
-    const updatedDeckName = prompt('Enter a new deck name:', newName);
+  const handleUpdate = async (deckName, deckId) => {
+    console.log('Current Deck name: ', deckName);
+  
+    const updatedDeckName = prompt('Enter a new deck name:', deckName);
     console.log('Updated deck name: ', updatedDeckName);
-
-    if (updatedDeckName === null || updatedDeckName.trim() === "") {
+  
+    if (updatedDeckName === null || updatedDeckName.trim() === '') {
       console.log('User cancelled update or entered empty name');
       return;
     }
-
-    if (updatedDeckName.trim() !== newName) {
+  
+    if (updatedDeckName.trim() !== deckName) {
       const deckExists = decks.some(
         (deck) => deck.name === updatedDeckName.trim()
       );
-
+  
       if (deckExists) {
         alert('Deck name already exists. Please choose a different name...');
         return;
       }
     }
-
+  
     try {
-      const deckDocRef = doc(db, 'Decks', deckName);
+      const deckDocRef = doc(db, 'Decks', deckId);
       const deckDoc = await getDoc(deckDocRef);
-
+  
       if (deckDoc.exists()) {
         await setDoc(deckDocRef, { name: updatedDeckName });
         console.log('Deck updated successfully');
         getDecks();
+        toast.success(`Deck has been updated successfully!`);
       } else {
-        console.log('Document not found:', deckName);
+        console.log('Document not found:', deckId);
       }
     } catch (error) {
       console.log('Error updating deck', error);
+      toast.error(`Error updating deck. Please try again.`);
     }
-  }
+  };
+  
 
 
   const handleDelete = async (deckId) => {
@@ -234,7 +237,7 @@ function DeckList() {
                         <div className="flex gap-3">
                         <button
                             className="box-border border-2 border-transparent w-max h-max bg-blue-500 text-white py-2 px-1 rounded"
-                            onClick={() => handleUpdate(handleDeckClick(deck.id))}
+                            onClick={() => handleUpdate(handleDeckClick(deck.name, deck.id))}
                           >
                             View
                           </button>
