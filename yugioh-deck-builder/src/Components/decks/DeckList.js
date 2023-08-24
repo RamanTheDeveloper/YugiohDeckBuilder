@@ -76,7 +76,6 @@ function DeckList() {
 
 
       try {
-        // Replace spaces with underscores
         const formattedDeckName = newDeckName.replace(/\s+/g, '-');
 
         const deckCollectionRef = collection(db, 'Decks')
@@ -86,6 +85,7 @@ function DeckList() {
 
         setInput("");
         getDecks();
+        toast.success(`Deck has been created successfully!`);
       } catch (error) {
         console.log("Error adding new deck", error);
       }
@@ -263,7 +263,7 @@ function DeckList() {
                         {deck.name}
                         <div className="flex gap-3">
                         <button
-                            className="box-border border-2 border-transparent w-max h-max bg-yellow-500 text-white py-2 px-1 rounded"
+                            className="box-border border-2 border-transparent w-max h-max bg-blue-500 text-white py-2 px-1 rounded"
                             onClick={() => handleDeckClick(deck.id)}
                           >
                             View
