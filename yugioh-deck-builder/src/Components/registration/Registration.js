@@ -44,7 +44,7 @@ const Register = () => {
 			<div class="px-6 py-12 h-full w-full">
 				<center><h1>Create an account</h1></center>
 				{isRegistered && <span>User already exists</span>}
-				<div class="flex flex-col justify-center align-middle items-center flex-wrap h-full g-4 text-gray-800">
+				<div class="flex flex-col justify-center align-middle items-center h-full g-4 text-gray-800">
 					<div className="md:w-8/12 lg:w-6/12 mb-12 md:mb-0 w-full flex justify-center">
 						<img
 							src={image}
